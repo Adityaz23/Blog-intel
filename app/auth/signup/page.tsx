@@ -118,7 +118,16 @@ export default function SignUpPage() {
                 </Field>
               )}
             />
-            <Button disabled={isPending}>{isPending ? (<><Loader2Icon className="size-4 animate-spin"/><span>Loading...</span></>):(<span>Sign Up</span>)}</Button>
+            <Button disabled={isPending}>
+              {isPending ? (
+                <>
+                  <Loader2Icon className="size-4 animate-spin" />
+                  <span>Loading...</span>
+                </>
+              ) : (
+                <span>Sign Up</span>
+              )}
+            </Button>
           </FieldGroup>
         </form>
       </CardContent>
