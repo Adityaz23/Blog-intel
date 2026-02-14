@@ -17,49 +17,32 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { api } from "@/convex/_generated/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "convex/react";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import z from "zod";
 
 export default function CreateBlog() {
   const [isPending, setIsPending] = useTransition();
-  const router = useRouter();
-  const mutation = useMutation(api.posts.createPost);
   const form = useForm({
     // using zod version 3 because v4 is causing problem.
     resolver: zodResolver(postSchema),
     defaultValues: {
       title: "",
       content: "",
+      image: undefined,
     },
   });
   // Now creating the fuction for the onSubmit ->
   function onSubmit(values: z.infer<typeof postSchema>) {
     setIsPending(async () => {
-      // calling the mutation :-
-      // await mutation({
-      //   body: values.content,
-      //   title: values.title,
-      // });
       // calling the server actions
       // Now this function will run in the server side and whole file runs on the client side.
       console.log("This run on the client side.");
-      
-      // await createBlogAction()
 
-      // now using nextroute called route.ts :-
-      await fetch('/api/create-route',{
-        method: "POST"
-      })
-
-      toast.success("Everything worked!");
-      router.push("/")
+      await createBlogAction(values);
     });
   }
   return (
@@ -108,6 +91,25 @@ export default function CreateBlog() {
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
                     )}
+                  </Field>
+                )}
+              />
+              <Controller
+                name="image"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel>Upload cover image.</FieldLabel>
+                    <Input
+                      type="file"
+                      aria-invalid={fieldState.invalid}
+                      placeholder="Your blog cover photo."
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        field.onChange(file);
+                      }}
+                    />
                   </Field>
                 )}
               />

@@ -11,11 +11,11 @@ export function Navbar() {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const router = useRouter()
   return (
-    <nav className="w-full py-5 flex items-center justify-between">
+    <nav className="w-full py-5 flex items-center justify-between text-primary">
       <div className="flex items-center gap-8">
         <Link href="/">
           <h1 className="text-3xl font-bold">
-            <span className="bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+            <span className="text-primary">
               Velora
             </span>
             <span className="text-zinc-400">Blog</span>
@@ -29,9 +29,9 @@ export function Navbar() {
           {/* Blog Link */}
           <Link
             className={buttonVariants({ variant: "outline" })}
-            href={"/blog"}
+            href={"/blogs"}
           >
-            Blog
+            Blogs
           </Link>
           {/* Create Link */}
           <Link
