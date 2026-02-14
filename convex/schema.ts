@@ -6,6 +6,8 @@ export default defineSchema({
         // this is the field for the blog post article ->
         title: v.string(),
         body: v.string(),
-        authorId: v.string()
+        authorId: v.string(),
+        // Now, here we will add the image storage id :-
+        imageStorageId: v.optional(v.id("_storage"))
     })
 })
