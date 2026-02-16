@@ -8,6 +8,7 @@ import { fetchMutation } from "convex/nextjs";
 import { redirect } from "next/navigation";
 import z from "zod";
 import { postSchema } from "./schemas/blog";
+import { revalidatePath } from "next/cache";
 
 export async function createBlogAction(values: z.infer<typeof postSchema>) {
   // getting the url for the image uploading :-
@@ -49,6 +50,7 @@ export async function createBlogAction(values: z.infer<typeof postSchema>) {
     console.error(error);
   }
 
+  revalidatePath("/blogs");
   //   if you are in the server action and need to send the user to somewhere then always use the redirect .
   return redirect("/");
 }

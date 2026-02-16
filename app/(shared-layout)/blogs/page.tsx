@@ -7,6 +7,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
+// Doing the caching for the dynamic routes ->
+export const dynamic = "force-static";
+export const revalidate = 30;
 export default function AllBlogs() {
   return (
     <div className="py-12">

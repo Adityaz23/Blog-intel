@@ -36,7 +36,7 @@ export const getPosts = query({
           posts.imageStorageId !== undefined
             ? await ctx.storage.getUrl(posts.imageStorageId)
             : null;
-            return {...posts,imageUrl:resolvedImageUrl}
+        return { ...posts, imageUrl: resolvedImageUrl };
       }),
     );
   },
@@ -50,5 +50,23 @@ export const generateImageUrl = mutation({
       throw new Error("Not authenitcated");
     }
     return await ctx.storage.generateUploadUrl();
+  },
+});
+
+export const getPostById = query({
+  args: { postId: v.id("posts") },
+  handler: async (ctx, args) => {
+    const post = await ctx.db.get(args.postId);
+    if (!post) {
+      return null;
+    }
+    const resolvedImageUrl =
+      post?.imageStorageId !== undefined
+        ? await ctx.storage.getUrl(post.imageStorageId)
+        : null;
+    return {
+      ...post,
+      imageUrl: resolvedImageUrl,
+    };
   },
 });
