@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { fetchQuery } from "convex/nextjs";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -10,6 +11,12 @@ import { Suspense } from "react";
 // Doing the caching for the dynamic routes ->
 export const dynamic = "force-static";
 export const revalidate = 30;
+
+export const metadata: Metadata = {
+  title: "VeloraBlog",
+  description: "Read our latest articles and insights!",
+  authors: [{ name: "Aditya Kumar Soni" }],
+};
 export default function AllBlogs() {
   return (
     <div className="py-12">
