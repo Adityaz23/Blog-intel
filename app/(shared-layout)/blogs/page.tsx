@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import { cacheLife, cacheTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
+import { connection } from "next/server";
 
 // Doing the caching for the dynamic routes ->
 // export const dynamic = "force-static";
@@ -39,12 +40,12 @@ export default function AllBlogs() {
 
 export async function LoaderBlog() {
   // Added this conenction() from the next/server
-  // await connection();
+  await connection();
 
   // the cache will revalidate every 15 min by default. Now, we will change it to the hours.
-  "use cache";
-  cacheLife("hours");
-  cacheTag("blogs");
+  // "use cache";
+  // cacheLife("hours");
+  // cacheTag("blogs");
   // The below line was just to check the skeleton.
   // await new Promise((resolve) => setTimeout(resolve, 5000));
   const data = await fetchQuery(api.posts.getPosts);
