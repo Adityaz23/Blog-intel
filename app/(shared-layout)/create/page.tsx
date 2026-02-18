@@ -2,7 +2,6 @@
 import { createBlogAction } from "@/app/actions";
 import { postSchema } from "@/app/schemas/blog";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Field,
   FieldError,
@@ -33,6 +32,7 @@ export default function CreateBlog() {
       image: undefined,
     },
   });
+
   // Now creating the fuction for the onSubmit ->
   function onSubmit(values: z.infer<typeof postSchema>) {
     setIsPending(async () => {
@@ -47,7 +47,7 @@ export default function CreateBlog() {
     <div className="max-w-5xl mx-auto py-20 px-4 animate-in fade-in duration-500">
       {/* Hero Section */}
       <div className="text-center mb-16 space-y-6">
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-linear-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
           Create Post
         </h1>
 
@@ -100,7 +100,7 @@ export default function CreateBlog() {
                   <Textarea
                     {...field}
                     placeholder="Write your thoughts here..."
-                    className="min-h-[160px] bg-white/5 border-white/10 focus-visible:ring-pink-500/40"
+                    className="min-h-160px bg-white/5 border-white/10 focus-visible:ring-pink-500/40"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -163,7 +163,7 @@ export default function CreateBlog() {
             {/* Submit Button */}
             <Button
               disabled={isPending}
-              className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-90 transition text-white"
+              className="w-full bg-linear-to-r from-pink-500 to-purple-600 hover:opacity-90 transition text-white"
             >
               {isPending ? (
                 <>
