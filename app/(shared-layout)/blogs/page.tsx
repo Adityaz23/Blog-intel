@@ -7,7 +7,6 @@ import { Metadata } from "next";
 import { cacheLife, cacheTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
 
 // Doing the caching for the dynamic routes ->
 // export const dynamic = "force-static";
@@ -20,22 +19,20 @@ export const metadata: Metadata = {
 };
 export default function AllBlogs() {
   return (
-    <div className="py-12">
-      <div className="text-center pb-12">
-        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-          Our Blog
+    <div className="relative py-16">
+      {/* Gradient Background Glow (matches homepage vibe) */}
+      <div className="absolute inset-0 -z-10 bg-linear-to-b from-primary/5 via-transparent to-transparent" />
+
+      <div className="text-center mb-16">
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+          Explore Our Blogs
         </h1>
-        <p className="text-2xl pt-4 max-w-2xl text-muted-foreground mx-auto">
-          Inside, thoughts and trends from our team!
+        <p className="text-lg sm:text-xl text-muted-foreground mt-4 max-w-2xl mx-auto">
+          Insights, stories, and ideas crafted for curious minds.
         </p>
       </div>
-      {/* <h1>Blogs</h1>
-      {/* even the onClick function wil also render in the server side or the server part. */}
-      {/* <p>{data?.[0].title}</p>
-      <p>{data?.[1].title}</p> */}
-      {/* <Suspense fallback={<SkeletonLoading />}> */}
-        <LoaderBlog />
-      {/* </Suspense> */}
+
+      <LoaderBlog />
     </div>
   );
 }
@@ -45,43 +42,55 @@ export async function LoaderBlog() {
   // await connection();
 
   // the cache will revalidate every 15 min by default. Now, we will change it to the hours.
-  "use cache"
-  cacheLife("hours")
-  cacheTag('blogs')
+  "use cache";
+  cacheLife("hours");
+  cacheTag("blogs");
   // The below line was just to check the skeleton.
   // await new Promise((resolve) => setTimeout(resolve, 5000));
   const data = await fetchQuery(api.posts.getPosts);
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 ">
+    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
       {data?.map((posts) => (
-        // <p key={posts._id}>{posts.title}</p>
-        <Card key={posts._id} className="pt-0">
-          <div className="relative h-48 w-full overflow-hidden">
-            {/* To use the next/images we need to pass the image flag to the next.config.ts  */}
+        <Card
+          key={posts._id}
+          className="group overflow-hidden border bg-background/60 backdrop-blur-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+        >
+          {/* Image Section */}
+          <div className="relative h-52 w-full overflow-hidden">
             <Image
-              className="rounded-t-lg object-center"
               src={
                 posts.imageUrl ??
-                "https://images.unsplash.com/photo-1770838917379-32208420ea9a?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                "https://images.unsplash.com/photo-1770838917379-32208420ea9a?q=80&w=987&auto=format&fit=crop"
               }
               fill
-              alt="person walking"
+              alt={posts.title}
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </div>
-          <CardContent>
+
+          {/* Content */}
+          <CardContent className="pt-6 space-y-3">
             <Link href={`/blogs/${posts._id}`}>
-              <h1 className="text-2xl font-bold hover:text-primary">
+              <h2 className="text-xl font-semibold group-hover:text-primary transition-colors">
                 {posts.title}
-              </h1>
+              </h2>
             </Link>
-            <p className="text-muted-foreground line-clamp-5">{posts.body}</p>
+
+            <p className="text-muted-foreground line-clamp-3 text-sm">
+              {posts.body}
+            </p>
           </CardContent>
-          <CardFooter>
+
+          <CardFooter className="pb-6">
             <Link
-              className={buttonVariants({ className: "w-full" })}
               href={`/blogs/${posts._id}`}
+              className={buttonVariants({
+                variant: "secondary",
+                className:
+                  "w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all",
+              })}
             >
-              Read More...
+              Read Article →
             </Link>
           </CardFooter>
         </Card>

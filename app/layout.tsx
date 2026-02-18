@@ -5,8 +5,10 @@ import { JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import { Suspense } from "react";           // ← add this
+
 import AppProviders from "./AppProviders";
+import { Suspense } from "react";
+import Footer from "@/components/web/Footer";
 
 const jetbrainsmono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -24,6 +26,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${jetbrainsmono.variable} antialiased`}>
@@ -33,10 +36,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading session...</div>}>
-            <AppProviders>{children}</AppProviders>
-          </Suspense>
-
+          <main className="max-w-7xl mx-auto w-full px-4 md:px-6 lg:px-8">
+            <Suspense fallback={<div>Loading...</div>}>
+              <AppProviders>{children}</AppProviders>
+            </Suspense>
+          </main>
+          <Footer />
           <Toaster />
         </ThemeProvider>
       </body>
