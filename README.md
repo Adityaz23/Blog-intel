@@ -1,36 +1,144 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+```
+ 🚀 Blog Intel
 
-First, run the development server:
+A modern, full-stack blog application built with cutting-edge web technologies.  
+Blog Intel provides secure authentication, real-time data updates, and a clean, scalable architecture using the latest Next.js App Router paradigm.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+---
+
+## 🧠 Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Authentication:** better-auth
+- **Backend & Database:** Convex (Real-time backend)
+- **Styling:** Tailwind CSS
+- **Language:** TypeScript
+- **Package Manager:** pnpm (npm, yarn, and bun also supported)
+
+---
+
+## ✨ Features
+
+- 🔐 Secure authentication using better-auth
+- 📝 Create, edit, and delete blog posts
+- ⚡ Real-time database updates with Convex
+- 📱 Fully responsive UI
+- 🎨 Modern design powered by Tailwind CSS
+- 🧩 Scalable App Router architecture
+- 🚀 Optimized server and client components
+- 🔄 Fast development workflow with hot reload
+
+---
+
 # or
 bun dev
+# or
+pnpm dev
+# or npm run dev
+
+# Project Structure :-
+
+├── 📁 app
+│   ├── 📁 (shared-layout)
+│   │   ├── 📁 blogs
+│   │   │   ├── 📁 [postId]
+│   │   │   │   ├── 📄 loading.tsx
+│   │   │   │   └── 📄 page.tsx
+│   │   │   └── 📄 page.tsx
+│   │   ├── 📁 create
+│   │   │   └── 📄 page.tsx
+│   │   ├── 📄 layout.tsx
+│   │   └── 📄 page.tsx
+│   ├── 📁 api
+│   │   ├── 📁 auth
+│   │   │   └── 📁 [...all]
+│   │   │       └── 📄 route.ts
+│   │   └── 📁 create-route
+│   │       └── 📄 route.ts
+│   ├── 📁 auth
+│   │   ├── 📁 login
+│   │   │   └── 📄 page.tsx
+│   │   ├── 📁 signup
+│   │   │   └── 📄 page.tsx
+│   │   └── 📄 layout.tsx
+│   ├── 📁 schemas
+│   │   ├── 📄 auth.ts
+│   │   ├── 📄 blog.ts
+│   │   └── 📄 comments.ts
+│   ├── 📄 AppProviders.tsx
+│   ├── 📄 actions.ts
+│   ├── 📄 favicon.ico
+│   ├── 🎨 globals.css
+│   └── 📄 layout.tsx
+├── 📁 components
+│   ├── 📁 ui
+│   │   ├── 📄 avatar.tsx
+│   │   ├── 📄 button.tsx
+│   │   ├── 📄 card.tsx
+│   │   ├── 📄 dropdown-menu.tsx
+│   │   ├── 📄 field.tsx
+│   │   ├── 📄 input.tsx
+│   │   ├── 📄 label.tsx
+│   │   ├── 📄 separator.tsx
+│   │   ├── 📄 skeleton.tsx
+│   │   ├── 📄 sonner.tsx
+│   │   ├── 📄 textarea.tsx
+│   │   └── 📄 theme-provider.tsx
+│   └── 📁 web
+│       ├── 📄 CommentSection.tsx
+│       ├── 📄 ConvexClientProvider.tsx
+│       ├── 📄 Footer.tsx
+│       ├── 📄 Navbar.tsx
+│       ├── 📄 PostPresence.tsx
+│       ├── 📄 SearchInput.tsx
+│       └── 📄 theme-toggle.tsx
+├── 📁 convex
+│   ├── 📁 _generated
+│   │   ├── 📄 api.d.ts
+│   │   ├── 📄 api.js
+│   │   ├── 📄 dataModel.d.ts
+│   │   ├── 📄 server.d.ts
+│   │   └── 📄 server.js
+│   ├── 📁 betterAuth
+│   │   ├── 📁 _generated
+│   │   │   ├── 📄 api.ts
+│   │   │   ├── 📄 component.ts
+│   │   │   ├── 📄 dataModel.ts
+│   │   │   └── 📄 server.ts
+│   │   ├── 📄 adapter.ts
+│   │   ├── 📄 auth.ts
+│   │   ├── 📄 convex.config.ts
+│   │   └── 📄 schema.ts
+│   ├── 📝 README.md
+│   ├── 📄 auth.config.ts
+│   ├── 📄 comments.ts
+│   ├── 📄 convex.config.ts
+│   ├── 📄 http.ts
+│   ├── 📄 posts.ts
+│   ├── 📄 presence.ts
+│   ├── 📄 schema.ts
+│   └── ⚙️ tsconfig.json
+├── 📁 lib
+│   ├── 📄 auth-client.ts
+│   ├── 📄 auth-server.ts
+│   └── 📄 utils.ts
+├── 📁 public
+│   ├── 🖼️ file.svg
+│   ├── 🖼️ globe.svg
+│   ├── 🖼️ next.svg
+│   ├── 🖼️ vercel.svg
+│   └── 🖼️ window.svg
+├── ⚙️ .gitignore
+├── 📝 README.md
+├── ⚙️ components.json
+├── 📄 eslint.config.mjs
+├── 📄 next.config.ts
+├── ⚙️ package.json
+├── ⚙️ pnpm-lock.yaml
+├── ⚙️ pnpm-workspace.yaml
+├── 📄 postcss.config.mjs
+├── 📄 proxy.ts
+├── 📄 sampleData.jsonl
+└── ⚙️ tsconfig.json 
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
