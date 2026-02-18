@@ -21,24 +21,25 @@ export function Navbar() {
           </h1>
         </Link>
         <div className="flex items-center gap-2">
-          <Link className={buttonVariants({ variant: "outline" })} href={"/"}>
-            {/* Home Link */}
+          <Link className={buttonVariants({ variant: "outline" })} href="/">
             Home
           </Link>
-          {/* Blog Link */}
+
           <Link
             className={buttonVariants({ variant: "outline" })}
-            href={"/blogs"}
+            href="/blogs"
           >
             Blogs
           </Link>
-          {/* Create Link */}
-          <Link
-            className={buttonVariants({ variant: "outline" })}
-            href={"/create"}
-          >
-            Create
-          </Link>
+
+          {isAuthenticated && (
+            <Link
+              className={buttonVariants({ variant: "outline" })}
+              href="/create"
+            >
+              Create
+            </Link>
+          )}
         </div>
       </div>
 
