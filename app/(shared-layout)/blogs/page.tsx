@@ -4,13 +4,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { fetchQuery } from "convex/nextjs";
 import { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
 // Doing the caching for the dynamic routes ->
-export const dynamic = "force-static";
-export const revalidate = 30;
+// export const dynamic = "force-static";
+// export const revalidate = 30;
 
 export const metadata: Metadata = {
   title: "VeloraBlog",
@@ -32,15 +33,23 @@ export default function AllBlogs() {
       {/* even the onClick function wil also render in the server side or the server part. */}
       {/* <p>{data?.[0].title}</p>
       <p>{data?.[1].title}</p> */}
-      <Suspense fallback={<SkeletonLoading />}>
+      {/* <Suspense fallback={<SkeletonLoading />}> */}
         <LoaderBlog />
-      </Suspense>
+      {/* </Suspense> */}
     </div>
   );
 }
 
 export async function LoaderBlog() {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  // Added this conenction() from the next/server
+  // await connection();
+
+  // the cache will revalidate every 15 min by default. Now, we will change it to the hours.
+  "use cache"
+  cacheLife("hours")
+  cacheTag('blogs')
+  // The below line was just to check the skeleton.
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
   const data = await fetchQuery(api.posts.getPosts);
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 ">
@@ -84,7 +93,7 @@ export async function LoaderBlog() {
 function SkeletonLoading() {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {[...Array(3)].map((_, i) => (
+      {[...Array(6)].map((_, i) => (
         <div key={i} className="flex flex-col space-y-3">
           <Skeleton className="h-48 w-full rounded-xl" />
           <div className="space-y-2 flex flex-col">
