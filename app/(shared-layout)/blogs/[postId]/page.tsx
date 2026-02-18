@@ -1,4 +1,3 @@
-
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { api } from "@/convex/_generated/api";
@@ -12,6 +11,7 @@ import { Metadata } from "next";
 import { PostPresence } from "@/components/web/PostPresence";
 import { getToken } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
+import { Suspense } from "react"; // ← add this
 
 // getting the params of the blogs ->
 interface PostIdParams {
@@ -22,32 +22,49 @@ export async function generateMetadata({
   params,
 }: PostIdParams): Promise<Metadata> {
   const { postId } = await params;
-  const post = await fetchQuery(api.posts.getPostById, { postId: postId });
+  const post = await fetchQuery(api.posts.getPostById, { postId });
   if (!post) {
-    {
-      title: "Post not found!";
-    }
+    return { title: "Post not found!" };
   }
   return { title: post?.title, description: post?.body };
 }
 
 export default async function PostId({ params }: PostIdParams) {
   const { postId } = await params;
+
+  return (
+    <Suspense
+      fallback={
+        <div className="max-w-3xl mx-auto py-12 px-4 text-center">
+          <div className="animate-spin h-8 w-8 border-4 border-primary rounded-full border-t-transparent mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading post...</p>
+        </div>
+      }
+    >
+      <PostContent params={{ postId }} /> {/* Move suspending logic here */}
+    </Suspense>
+  );
+}
+
+// New async component that does all the awaiting
+async function PostContent({ params }: { params: { postId: Id<"posts"> } }) {
+  const { postId } = params;
+
   const token = await getToken();
 
   const [post, preloadedComments, userId] = await Promise.all([
     fetchQuery(api.posts.getPostById, { postId }),
     preloadQuery(api.comments.getCommentsByPosts, { postId }),
-    await fetchQuery(api.presence.getUserId, {}, { token }),
+    fetchQuery(api.presence.getUserId, {}, { token }),
   ]);
 
-  if(!userId){
-    return redirect("/auth/login")
+  if (!userId) {
+    redirect("/auth/login");
   }
 
   if (!post) {
     return (
-      <div>
+      <div className="max-w-3xl mx-auto py-12 px-4 text-center">
         <h1 className="text-6xl font-extrabold text-pink-700">No Post Found</h1>
       </div>
     );
@@ -56,12 +73,13 @@ export default async function PostId({ params }: PostIdParams) {
   return (
     <div className="max-w-3xl mx-auto py-8 px-4 animate-in fade-in duration-500 relative">
       <Link
-        href={"/blogs"}
+        href="/blogs"
         className={buttonVariants({ variant: "outline", className: "mb-4" })}
       >
         <ArrowLeftIcon className="size-4" />
         Back to blog
       </Link>
+
       <div className="relative w-full h-100 rounded-xl mb-8 overflow-hidden shadow-sm">
         <Image
           src={
@@ -73,6 +91,7 @@ export default async function PostId({ params }: PostIdParams) {
           className="object-cover hover:scale-105 transition-transform duration-500"
         />
       </div>
+
       <div className="space-y-4 flex flex-col">
         <h1 className="text-4xl font-bold tracking-tighter text-foreground">
           {post?.title}
@@ -85,12 +104,15 @@ export default async function PostId({ params }: PostIdParams) {
           {userId && <PostPresence roomId={post._id} userId={userId} />}
         </div>
       </div>
+
       <Separator className="my-8" />
+
       <p className="text-lg leading-relaxed text-foreground/90 whitespace-pre-wrap">
         {post?.body}
       </p>
+
       <Separator className="my-8" />
-      {/* getting the comment section component */}
+
       <CommentSection preLoadComments={preloadedComments} />
     </div>
   );

@@ -9,6 +9,10 @@ export default defineSchema({
         authorId: v.string(),
         // Now, here we will add the image storage id :-
         imageStorageId: v.optional(v.id("_storage"))
+    }).searchIndex('search_title',{
+        searchField:'title'
+    }).searchIndex('search_body',{
+        searchField:"body"
     }),
     // This table is for the user to comment on the blog :-
     comments: defineTable({

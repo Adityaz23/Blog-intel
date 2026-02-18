@@ -17,7 +17,7 @@ export function PostPresence({ roomId, userId }: iAppProps) {
     <div className="flex items-center gap-2">
         <p className="text-xs uppercase tracking-wide text-muted-foreground">Recent Readers: </p>
         <div className="text-black">
-            <FacePile presenceState={presenceState ?? []} />
+            <FacePile presenceState={presenceState ?? []}/>
         </div>
     </div>
   )
