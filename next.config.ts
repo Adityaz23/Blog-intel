@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
         port: "",
       },
       {
-        hostname: "incredible-raven-809.convex.cloud",
+        hostname: "wary-chicken-543.convex.cloud",
         protocol: "https",
         port: "",
       },
