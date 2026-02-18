@@ -97,10 +97,16 @@ export default function LoginPage() {
                 </Field>
               )}
             />
-            <Button disabled={isPending}>{isPending ? (<>
-              <Loader2Icon className="size-4 animate-spin"/>
-              <span>Loading....</span>
-            </>):(<span>Login</span>)}</Button>
+            <Button disabled={isPending}>
+              {isPending ? (
+                <>
+                  <Loader2Icon className="size-4 animate-spin" />
+                  <span>Loading....</span>
+                </>
+              ) : (
+                <span>Login</span>
+              )}
+            </Button>
           </FieldGroup>
         </form>
       </CardContent>
